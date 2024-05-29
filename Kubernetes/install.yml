@@ -1,14 +1,37 @@
-- name: Started Installation Kubernetes
+---
+- name: Install Kubernetes
   hosts: all
+  gather_facts: true
   tasks:
-    - include_vars: ./variable/vars.yml
-- name: Include Docker Instalaltion Yml File
-  import_playbook: ./tasks/docker.yml
-- name: Include Preparing Yml File To Prepare Machines
-  import_playbook: ./tasks/prepare_machine.yml
-- name: Include Preparing Yml File To Prepare Machines
-  import_playbook: ./tasks/prepare_kubernetes.yml
-- name: Include Master Yml File To Set Master Machine
-  import_playbook: ./tasks/master.yml
-- name: Include Initiate Yml File To Join Worker Node
-  import_playbook: ./tasks/initiate_cluster.yml
+    - name: Update package cache and install required packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - apt-transport-https
+        - curl
+        - gnupg-agent
+        - software-properties-common
+
+    - name: Download Kubernetes repository key
+      shell: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /etc/apt/trusted.gpg.d/kubernetes-archive-keyring.gpg add -
+
+    - name: Add Kubernetes repository
+      apt_repository:
+        repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+        state: present
+      become: yes
+
+    - name: Update APT cache
+      apt:
+        update_cache: yes
+
+    - name: Install Kubernetes packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - kubelet
+        - kubeadm
+        - kubectl
+

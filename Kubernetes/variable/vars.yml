@@ -1,6 +1,6 @@
 ---
-master_ip: "Your Master Node Ip Address"
-worker_ip: "Your Worker Node Ip Address"
+master_ip: 18.218.137.41
+worker_ip: 18.188.44.146
 repo_file: kubernetes.repo
 initiate_file: initiate.sh
 selinux: /etc/selinux/config

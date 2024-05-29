@@ -1,0 +1,6 @@
+[all]
+[kubernetes-master-nodes]
+18.218.137.41 ansible_user=ubuntu ansible_ssh_private_key_file=/home/chandrababu/.ssh/id_rsa ansible_python_interpreter=/usr/bin/python3
+[kubernetes-worker-nodes]
+18.188.44.146 ansible_user=ubuntu ansible_ssh_private_key_file=/home/chandrababu/.ssh/id_rsa ansible_python_interpreter=/usr/bin/python3
+
